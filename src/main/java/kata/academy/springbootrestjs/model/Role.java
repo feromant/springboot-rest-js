@@ -1,5 +1,6 @@
 package kata.academy.springbootrestjs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -49,6 +50,7 @@ public class Role implements GrantedAuthority {
     @Override
     public String toString() { return this.role; }
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return role;

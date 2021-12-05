@@ -12,18 +12,26 @@ import java.util.Set;
 public class DBInitializer {
 
     private final UserService userService;
+    private final RoleService roleService;
 
-    public DBInitializer(UserService userService) {
+    public DBInitializer(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @Transactional
     @PostConstruct
     public void initDB() {
 
+        Role adminRole = new Role("ADMIN");
+        Role userRole = new Role("USER");
+
+        roleService.saveRole(adminRole);
+        roleService.saveRole(userRole);
+
         userService.addUser(new User("admin", "admin", (byte) 45, "admin@test.com",
-                "admin", Set.of(new Role("ADMIN"))));
+                "admin", Set.of(adminRole, userRole)));
         userService.addUser(new User( "user", "user", (byte) 25, "user@test.com",
-                "user", Set.of(new Role("USER"))));
+                "user", Set.of(userRole)));
     }
 }
